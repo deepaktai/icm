@@ -1,36 +1,84 @@
-import * as React from 'react';
-import { DataGrid } from '@mui/x-data-grid';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCommunityData } from 'app/store/CommunitySlice';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TablePagination,
+  Box,
+} from '@mui/material';
 
-const columns = [
-  { field: 'id', headerName: 'Application ID', width: 170 },
-  { field: 'program', headerName: 'Program', width: 150 },
-  { field: 'location', headerName: 'Location', width: 150 },
-  { field: 'pastor', headerName: 'Pastor', width: 150 },
-  { field: 'counselors', headerName: 'Counselors', width: 150 },
-  { field: 'participants', headerName: 'Participants', width: 150 },
-  { field: 'children', headerName: 'Children', width: 150 },
-
-];
-
-const rows = [
-  { id: 1, program: 'Snow', location: 'Jon', pastor: 'abc', counselors: 'abc', participants: 'abc', children: 'abc' },
-];
 function CommunityTable() {
+  const dispatch = useDispatch();
+  const communityData = useSelector((state) => state.getCommunityData);
+  const data = communityData|| [];
+
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  useEffect(() => {
+    dispatch(getCommunityData());
+  }, [dispatch]);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
+
   return (
-    <div style={{ height: 400, width: '100%' }}>
-    <DataGrid
-      rows={rows}
-      columns={columns}
-      initialState={{
-        pagination: {
-          paginationModel: { page: 0, pageSize: 5 },
-        },
-      }}
-      pageSizeOptions={[5, 10]}
-      // checkboxSelection
-    />
-  </div>
-  )
+    <>
+      <Box sx={{ flexGrow: 1, marginTop: '20px' }}>
+        <TableContainer style={{ marginTop: '10px' }}>
+          <Table sx={{ minWidth: 650 }} aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell>Application ID</TableCell>
+                <TableCell>Base</TableCell>
+                <TableCell>Branch</TableCell>
+                <TableCell>Application Date</TableCell>
+                <TableCell>Pastor</TableCell>
+                <TableCell>Pastor Status</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {data &&
+                data
+                  .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                  .map((row) => (
+                    <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                      <TableCell component="th" scope="row">
+                        {row.application_id}
+                      </TableCell>
+                      <TableCell>{row.base?.name}</TableCell>
+                      <TableCell>{row.branch?.name}</TableCell>
+                      <TableCell>{row.applied_at}</TableCell>
+                      <TableCell>{row.pastor_id}</TableCell>
+                      <TableCell>{row.active}</TableCell>
+                    </TableRow>
+                  ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={data.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      </Box>
+    </>
+  );
 }
 
-export default CommunityTable
+export default CommunityTable;

@@ -3,7 +3,7 @@
 
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
-export const getMainData = createAsyncThunk('transform/getMainData', async () => {
+export const getCommunityData = createAsyncThunk('transform/getCommunityData', async () => {
   try {
     const myHeaders = new Headers();
     myHeaders.append('Authorization', 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwOTAvdXNlcnMvbG9naW4iLCJpYXQiOjE2OTkyNDkyNjIsImV4cCI6MTY5OTY4NDg2MiwibmJmIjoxNjk5MjQ5MjYyLCJqdGkiOiJ2eXR2b0xHbGV0cGpNaVplIiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3IiwidXNlciI6eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBhcGkudHJhbnNmb3JtLmRldiIsInVzZXJuYW1lIjoiYWRtaW4iLCJyb2xlcyI6WyJhZG1pbiJdLCJ0aW1lc3RhbXAiOiIyMDE3LTA4LTA2VDIyOjA3OjI1LjAwMDAwMFoiLCJmaXJzdG5hbWUiOiJBZG1pbiIsImxhc3RuYW1lIjoiVXNlciIsImJhc2VfaWQiOm51bGwsImJyYW5jaF9pZCI6bnVsbH19.1NN_aTKW4dkLOp2mgLR7nwFuQ4oemH3uEyPtWXmh9Wo');
@@ -30,7 +30,7 @@ export const getMainData = createAsyncThunk('transform/getMainData', async () =>
 });
 
 
-const MainPageSlice = createSlice({
+const CommunitySlice = createSlice({
   name: 'transform',
    initialState: {
     data: [],
@@ -40,15 +40,15 @@ const MainPageSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getMainData.pending, (state) => {
+      .addCase(getCommunityData.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(getMainData.fulfilled, (state, action) => {
+      .addCase(getCommunityData.fulfilled, (state, action) => {
         state.loading = false;
         state.data = action.payload;
       })
-      .addCase(getMainData.rejected, (state, action) => {
+      .addCase(getCommunityData.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
       })
@@ -56,7 +56,7 @@ const MainPageSlice = createSlice({
   },
 });
 
-export default MainPageSlice.reducer;
+export default CommunitySlice.reducer;
 
 
 

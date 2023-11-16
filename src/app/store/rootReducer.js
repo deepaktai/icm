@@ -7,6 +7,8 @@ import detail from './detailSlice';
 import member from './memberSlice';
 import NewApplicationSlice from './NewApplicationSlice';
 import MainPageSlice from './MainPageSlice';
+import CommunitySlice from './CommunitySlice';
+import ApprovalSlice from './ApprovalSlice';
 
 const createReducer = (asyncReducers) => (state, action) => {
   if (action.type === 'user/userLoggedOut') {
@@ -23,6 +25,8 @@ const createReducer = (asyncReducers) => (state, action) => {
     member,
     NewApplicationSlice,
     MainPageSlice,
+    CommunitySlice,
+    ApprovalSlice,
     ...asyncReducers,
   });
 

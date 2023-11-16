@@ -14,8 +14,6 @@ function Application() {
   const [selectedBaseName, setSelectedBaseName] = useState("");
   const [selectedBranchName, setSelectedBranchName] = useState("");
   const [selectedchurch, setSelectedChurch] = useState('');
-  // const [selectedposition, setSelectedPosition] = useState('');
-  // const [selectedProgram, setSelectedProgram] = useState('');
   const [activeStep, setActiveStep] = useState(0);
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [selectedPastor, setSelectedPastor] = useState("");
@@ -277,27 +275,26 @@ function Application() {
                     <Typography>Program Venue</Typography>
                   </Grid>
                   <Grid item xs={12} style={{ display: 'flex', flexDirection: 'row' }}>
-                    <Grid item xs={4} style={{ marginLeft: '10px' }}>
-                      <FormControl>
-                        <RadioGroup
-                          aria-labelledby="demo-radio-buttons-group-label"
-                          defaultValue="Main Church"
-                          name="radio-buttons-group"
-                        >
-                          <FormControlLabel value="mainchurch" control={<Radio />} label="Main Church" />
-                        </RadioGroup>
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={6} style={{ marginLeft: '10px' }}>
-                      <FormControl>
-                        <RadioGroup
-                          aria-labelledby="demo-radio-buttons-group-label"
-                          name="radio-buttons-group"
-                        >
-                          <FormControlLabel value="pioneering" control={<Radio />} label="Pioneering/Outreach Church" />
-                        </RadioGroup>
-                      </FormControl>
-                    </Grid>
+                  <Grid item xs={4} style={{ marginLeft: '10px' }}>
+  <FormControl>
+    <RadioGroup
+      aria-labelledby="mainchurch-label"
+      name="mainchurch" // Different name attribute
+    >
+      <FormControlLabel value="mainchurch" control={<Radio />} label="Main Church" />
+    </RadioGroup>
+  </FormControl>
+</Grid>
+<Grid item xs={6} style={{ marginLeft: '10px' }}>
+  <FormControl>
+    <RadioGroup
+      aria-labelledby="pioneering-label"
+      name="pioneering" // Different name attribute
+    >
+      <FormControlLabel value="pioneering" control={<Radio />} label="Pioneering/Outreach Church" />
+    </RadioGroup>
+  </FormControl>
+</Grid>
                   </Grid>
                   <Grid item xs={12} style={{ marginLeft: '10px' }}>
                     <Typography>Transform Community Address</Typography>

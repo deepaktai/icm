@@ -1,20 +1,50 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getMainData } from 'app/store/MainPageSlice';
-import {Table,TableBody,TableCell,TableContainer,TableHead,TableRow } from '@mui/material';
+import {Table,TableBody,TableCell,TableContainer,TableHead,TableRow,TablePagination } from '@mui/material';
 import { Box, FormControl, Select, Grid, MenuItem, InputLabel, TextField } from '@mui/material';
 
 function MainTable() {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.MainPageSlice.data);
-  const rows = data.data || [];
-  console.log(rows, 'complete data');
+  // const rows = data.data || [];
+  const originalRows = data.data || [];
+  // console.log(rows, 'complete data');
+  const [rows, setRows] = useState(originalRows);
   const [selectedBase, setSelectedBase] = useState('AllBase');
   const [selectedBranch, setSelectedBranch] = useState('AllBranch');
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [searchInput, setSearchInput] = useState(''); // Add this line
 
   useEffect(() => {
     dispatch(getMainData());
   }, [dispatch]);
+
+  useEffect(() => {
+    // Filter rows based on selectedBase, selectedBranch, and search input
+    const filteredRows = originalRows.filter((row) => {
+      const baseFilter = selectedBase === 'AllBase' || row.base.name === selectedBase;
+      const branchFilter =
+        selectedBranch === 'AllBranch' || row.branch.name === selectedBranch;
+        const searchFilter =
+        typeof row.pastor_id === 'string' &&
+        row.pastor_id.toLowerCase().includes(searchInput.toLowerCase());
+
+      return baseFilter && branchFilter && searchFilter;
+    });
+
+    setRows(filteredRows);
+  }, [originalRows, selectedBase, selectedBranch, searchInput]);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   return (
 <Box sx={{ flexGrow: 1, marginTop: '20px' }}>
@@ -80,7 +110,7 @@ function MainTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {originalRows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
             <TableRow
               key={row.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -97,6 +127,15 @@ function MainTable() {
         </TableBody>
       </Table>
     </TableContainer>
+    <TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={originalRows.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
     </Box>
   );
 }
