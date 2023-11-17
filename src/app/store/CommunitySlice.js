@@ -1,12 +1,10 @@
 
-// First API
-
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 export const getCommunityData = createAsyncThunk('transform/getCommunityData', async () => {
   try {
     const myHeaders = new Headers();
-    myHeaders.append('Authorization', 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwOTAvdXNlcnMvbG9naW4iLCJpYXQiOjE2OTkyNDkyNjIsImV4cCI6MTY5OTY4NDg2MiwibmJmIjoxNjk5MjQ5MjYyLCJqdGkiOiJ2eXR2b0xHbGV0cGpNaVplIiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3IiwidXNlciI6eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBhcGkudHJhbnNmb3JtLmRldiIsInVzZXJuYW1lIjoiYWRtaW4iLCJyb2xlcyI6WyJhZG1pbiJdLCJ0aW1lc3RhbXAiOiIyMDE3LTA4LTA2VDIyOjA3OjI1LjAwMDAwMFoiLCJmaXJzdG5hbWUiOiJBZG1pbiIsImxhc3RuYW1lIjoiVXNlciIsImJhc2VfaWQiOm51bGwsImJyYW5jaF9pZCI6bnVsbH19.1NN_aTKW4dkLOp2mgLR7nwFuQ4oemH3uEyPtWXmh9Wo');
+    myHeaders.append('Authorization', 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwOTAvdXNlcnMvbG9naW4iLCJpYXQiOjE3MDAyMTQwODIsImV4cCI6MTcwMDY0OTY4MiwibmJmIjoxNzAwMjE0MDgyLCJqdGkiOiJTWlhVbExDdVR6NEtUSFplIiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3IiwidXNlciI6eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBhcGkudHJhbnNmb3JtLmRldiIsInVzZXJuYW1lIjoiYWRtaW4iLCJyb2xlcyI6WyJhZG1pbiJdLCJ0aW1lc3RhbXAiOiIyMDE3LTA4LTA2VDIyOjA3OjI1LjAwMDAwMFoiLCJmaXJzdG5hbWUiOiJBZG1pbiIsImxhc3RuYW1lIjoiVXNlciIsImJhc2VfaWQiOm51bGwsImJyYW5jaF9pZCI6bnVsbH19.YIt1o9Pc1Jaq_uxAyAD_f6c6fHvPMwAhaYNqpI2Pe_Y');
     myHeaders.append('Content-Type', 'application/json');
 
     const requestOptions = {
@@ -14,7 +12,7 @@ export const getCommunityData = createAsyncThunk('transform/getCommunityData', a
       headers: myHeaders,
       redirect: 'follow',
     };
-    const url = "https://staging-data-api.caremin.com/applications?limit=50&page=1&sort=applied_at:asc&with=branch,program,church,church.barangay,church.city,base.branches,pastor,pastor.churches,pastor.churches.affiliation,pastor.churches.barangay,pastor.churches.city,pastor.base,pastor.branch,pastor.province,pastor.city,pastor.barangay,pastor.contacts";
+    const url = "https://staging-data-api.caremin.com/communities?limit=20&page=1&participant_status=overriden&with=application.base.branches,application.program,application.community,application.pastor,application.church,application.pastor.churches,application.pastor.churches.barangay,application.pastor.churches.city,application.pastor.churches.affiliation,application.pastor.base,application.pastor.province,application.pastor.city,application.pastor.barangay,application.pastor.contacts,donor,application,savingsGroup,savingsGroupData";
     const response = await window.fetch(url, requestOptions);
      
     if (!response.ok) {
@@ -28,8 +26,6 @@ export const getCommunityData = createAsyncThunk('transform/getCommunityData', a
     throw error;
   }
 });
-
-
 const CommunitySlice = createSlice({
   name: 'transform',
    initialState: {
@@ -55,7 +51,6 @@ const CommunitySlice = createSlice({
      
   },
 });
-
 export default CommunitySlice.reducer;
 
 

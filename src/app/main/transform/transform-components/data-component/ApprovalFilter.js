@@ -1,87 +1,56 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Box,
-  FormControl,
-  Select,
-  Grid,
-  MenuItem,
-  InputLabel,
-  TextField,
-} from '@mui/material';
+import { Box,FormControl,Select,Grid,MenuItem,InputLabel,TextField} from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import { getApprovalData } from 'app/store/ApprovalSlice';
 import DataTable from 'react-data-table-component';
-
-
 function CustomNoDataMessage() {
     return (
       <div className="custom-no-data-message" style={{ marginTop: '10px', color: '#386BBA' }}>
-        Please Wait for Table Records.
+        Please Wait for Table Records...
       </div>
     );
   }
-  
   const customStyles = {
-    headRow: {
-        style: {
-          color: '#387BBA', // Change the color to your desired color
-        },
-    },
-    headCells:{
-      style:{
-        fontSize: '14px',
-        fontWeight: '800'
-      },
-    },
+    headRow: { style: { color: '#387BBA' },},
+    headCells:{ style:{ fontSize: '14px', fontWeight: '800' }, },
   };
-
 function ApprovalFilter() {
   const dispatch = useDispatch();
   const approvalData = useSelector((state) => state.ApprovalSlice.data);
   const approvalDetail = approvalData.data;
-
-  console.log(approvalDetail);
-
+  // console.log(approvalDetail);
   useEffect(() => {
     dispatch(getApprovalData());
   }, [dispatch]);
-
   const [filteredData, setFilteredData] = useState(approvalDetail);
   const [selectedBase, setSelectedBase] = useState('');
   const [selectedBranch, setSelectedBranch] = useState('');
   const [selectedProgram, setSelectedProgram] = useState('');
-
   useEffect(() => {
     let newFilteredData = approvalDetail;
-
     if (selectedBase) {
       newFilteredData = newFilteredData.filter(
         (row) => row.base.name === selectedBase
       );
     }
-
     if (selectedBranch) {
       newFilteredData = newFilteredData.filter(
         (row) => row.data.branches.name === selectedBranch
       );
     }
-
     if (selectedProgram) {
       newFilteredData = newFilteredData.filter(
         (row) => row.program.name === selectedProgram
       );
     }
-
     setFilteredData(newFilteredData);
   }, [approvalDetail, selectedBase, selectedBranch, selectedProgram]);
-
   const handleBaseChange = (event) => {
     const baseName = event.target.value;
     setSelectedBase(baseName);
     setSelectedBranch(''); // Reset branch when base changes
     setSelectedProgram(''); // Reset program when base changes
   };
-
   const handleBranchChange = (event) => {
     setSelectedBranch(event.target.value);
     setSelectedProgram(''); // Reset program when branch changes
@@ -89,20 +58,22 @@ function ApprovalFilter() {
   const handleProgramChange = (event) => {
     setSelectedProgram(event.target.value);
   };
-
   const branchOptions = Array.isArray(approvalDetail)
     ? approvalDetail
         .filter((row) => row.base?.name === selectedBase)
         .map((row) => row.base.branches.name)
         .filter((value, index, self) => self.indexOf(value) === index)
     : [];
-
   const programOptions = Array.isArray(approvalDetail)
     ? approvalDetail
         .filter((row) => row.base?.name === selectedBase)
         .map((row) => row.program?.name)
         .filter((value, index, self) => self.indexOf(value) === index)
     : [];
+
+    const totalCounselors = filteredData ? filteredData.reduce((total, row) => total + row.total_counselors, 0): 0;
+    const totalParticipants = filteredData ? filteredData.reduce((total, row) => total + row.total_participants, 0) :0; 
+    const totalChildren = filteredData ? filteredData.reduce((total, row) => total + row.total_children, 0): 0;
 
     const columns = [
     { name: 'Application Date', selector: (row) => row.applied_at },
@@ -123,9 +94,7 @@ function ApprovalFilter() {
     { name: 'Children', selector: (row) => row.total_children },
 ]
 
-
-  return (
-    
+  return ( 
     <>
       <Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={2}>
@@ -193,6 +162,7 @@ function ApprovalFilter() {
               id="standard-basic"
               label="Total Applications"
               variant="standard"
+              value={totalCounselors}
               disabled
               sx={{ marginLeft: '5px' }}
             />
@@ -200,6 +170,7 @@ function ApprovalFilter() {
               id="standard-basic"
               label="Total Participant Override"
               variant="standard"
+              value={totalParticipants}
               disabled
               sx={{ marginLeft: '5px' }}
             />
@@ -207,6 +178,7 @@ function ApprovalFilter() {
               id="standard-basic"
               label="Total Children"
               variant="standard"
+              value={totalChildren}
               disabled
               sx={{ marginLeft: '5px' }}
             />
@@ -225,5 +197,4 @@ function ApprovalFilter() {
     </>
   );
 }
-
 export default ApprovalFilter;

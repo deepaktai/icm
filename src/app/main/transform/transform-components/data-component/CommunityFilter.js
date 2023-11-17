@@ -77,8 +77,12 @@ function CommunityFilter() {
                     <Grid item xs={4} >
                     <TextField id="standard-basic" label="Total Children" variant="standard" fullWidth disabled/>
                     </Grid>
+                    </Grid> 
+                    <Grid container spacing={2}>
+                    <Grid item xs={4} > 
+                    <TextField id="standard-basic" label="Pastor Name or ID" variant="standard" fullWidth disabled/>
                     </Grid>
-                
+                    </Grid>
             </Box>
     </>
   )

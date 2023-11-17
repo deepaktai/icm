@@ -1,11 +1,11 @@
 import React from 'react';
-import CommunityFilter from './data-component/CommunityFilter';
+// import CommunityFilter from './data-component/CommunityFilter';
 import CommunityTable from './data-component/CommunityTable';
 
 function CommunityList() {
   return (
     <div>
-     <CommunityFilter/>
+     {/* <CommunityFilter/> */}
      <CommunityTable/>
     </div>
   )
