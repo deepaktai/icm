@@ -1,5 +1,5 @@
-import React from 'react'
-import ReportDetail from './data-component/ReportDetail'
+import React from 'react';
+import ReportDetail from './data-component/ReportDetail';
 
 function RowDataDetail() {
   return (

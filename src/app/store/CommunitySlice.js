@@ -4,7 +4,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 export const getCommunityData = createAsyncThunk('transform/getCommunityData', async () => {
   try {
     const myHeaders = new Headers();
-    myHeaders.append('Authorization', 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwOTAvdXNlcnMvbG9naW4iLCJpYXQiOjE3MDAyMTQwODIsImV4cCI6MTcwMDY0OTY4MiwibmJmIjoxNzAwMjE0MDgyLCJqdGkiOiJTWlhVbExDdVR6NEtUSFplIiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3IiwidXNlciI6eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBhcGkudHJhbnNmb3JtLmRldiIsInVzZXJuYW1lIjoiYWRtaW4iLCJyb2xlcyI6WyJhZG1pbiJdLCJ0aW1lc3RhbXAiOiIyMDE3LTA4LTA2VDIyOjA3OjI1LjAwMDAwMFoiLCJmaXJzdG5hbWUiOiJBZG1pbiIsImxhc3RuYW1lIjoiVXNlciIsImJhc2VfaWQiOm51bGwsImJyYW5jaF9pZCI6bnVsbH19.YIt1o9Pc1Jaq_uxAyAD_f6c6fHvPMwAhaYNqpI2Pe_Y');
+    myHeaders.append('Authorization', 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwOTAvdXNlcnMvbG9naW4iLCJpYXQiOjE3MDA2NTQwNjQsImV4cCI6MTcwMTA4OTY2NCwibmJmIjoxNzAwNjU0MDY0LCJqdGkiOiJTTlIybzhVSkc0RnI0aUpuIiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3IiwidXNlciI6eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBhcGkudHJhbnNmb3JtLmRldiIsInVzZXJuYW1lIjoiYWRtaW4iLCJyb2xlcyI6WyJhZG1pbiJdLCJ0aW1lc3RhbXAiOiIyMDE3LTA4LTA2VDIyOjA3OjI1LjAwMDAwMFoiLCJmaXJzdG5hbWUiOiJBZG1pbiIsImxhc3RuYW1lIjoiVXNlciIsImJhc2VfaWQiOm51bGwsImJyYW5jaF9pZCI6bnVsbH19.4ie8A4a6ah4haSM5ASZDl2m3klBwr4nJNhr2prNR7gA');
     myHeaders.append('Content-Type', 'application/json');
 
     const requestOptions = {
@@ -19,17 +19,44 @@ export const getCommunityData = createAsyncThunk('transform/getCommunityData', a
       throw new Error(`Request failed with status ${response.status}`);
     }
     const data = await response.json();
-    console.log(data,'Indore');
     return data;
   } catch (error) {
     console.error('Error:', error);
     throw error;
   }
 });
+
+export const getBranches = createAsyncThunk('transform/getBranches', async () => {
+  try {
+    const myHeaders = new Headers();
+    myHeaders.append('Authorization', 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwOTAvdXNlcnMvbG9naW4iLCJpYXQiOjE3MDA2NTQwNjQsImV4cCI6MTcwMTA4OTY2NCwibmJmIjoxNzAwNjU0MDY0LCJqdGkiOiJTTlIybzhVSkc0RnI0aUpuIiwic3ViIjoxLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3IiwidXNlciI6eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBhcGkudHJhbnNmb3JtLmRldiIsInVzZXJuYW1lIjoiYWRtaW4iLCJyb2xlcyI6WyJhZG1pbiJdLCJ0aW1lc3RhbXAiOiIyMDE3LTA4LTA2VDIyOjA3OjI1LjAwMDAwMFoiLCJmaXJzdG5hbWUiOiJBZG1pbiIsImxhc3RuYW1lIjoiVXNlciIsImJhc2VfaWQiOm51bGwsImJyYW5jaF9pZCI6bnVsbH19.4ie8A4a6ah4haSM5ASZDl2m3klBwr4nJNhr2prNR7gA');
+    myHeaders.append('Content-Type', 'application/json');
+
+    const requestOptions = {
+      method: 'GET',
+      headers: myHeaders,
+      redirect: 'follow',
+    };
+    const url = "https://staging-data-api.caremin.com/communities?limit=20&page=1&participant_status=overriden&with=application.base.branches,application.program,application.community,application.pastor,application.church,application.pastor.churches,application.pastor.churches.barangay,application.pastor.churches.city,application.pastor.churches.affiliation,application.pastor.base,application.pastor.province,application.pastor.city,application.pastor.barangay,application.pastor.contacts,donor,application,savingsGroup,savingsGroupData"; // Change the URL to the correct endpoint for branches
+    const response = await window.fetch(url, requestOptions);
+     
+    if (!response.ok) {
+      throw new Error(`Request failed with status ${response.status}`);
+    }
+    const data = await response.json();
+    console.log(data,'Indore');
+    return data;
+  } catch (error) {
+    console.error('Error fetching branches:', error);
+    throw error;
+  }
+});
+
 const CommunitySlice = createSlice({
   name: 'transform',
    initialState: {
     data: [],
+    branches: [],
     loading: false,
     error: null,
   },
@@ -48,6 +75,14 @@ const CommunitySlice = createSlice({
         state.loading = false;
         state.error = action.error.message;
       })
+      .addCase(getBranches.fulfilled, (state, action) => {
+        state.loading = false;
+        state.branches = action.payload ? action.payload.branches || [] : [];
+      })
+      .addCase(getBranches.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      });
      
   },
 });

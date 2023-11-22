@@ -26,6 +26,7 @@ function ApprovalFilter() {
   const [selectedBase, setSelectedBase] = useState('');
   const [selectedBranch, setSelectedBranch] = useState('');
   const [selectedProgram, setSelectedProgram] = useState('');
+  
   useEffect(() => {
     let newFilteredData = approvalDetail;
     if (selectedBase) {
