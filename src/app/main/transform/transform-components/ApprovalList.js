@@ -1,11 +1,13 @@
 import React from 'react';
-import ApprovalFilter from './data-component/ApprovalFilter';
+import ApprovalPage from './data-component/ApprovalPage';
+// import ApprovalFilter from './data-component/ApprovalFilter';
 
 
 function ApprovalList() {
   return (
     <>
-      <ApprovalFilter/>
+      {/* <ApprovalFilter/> */}
+      <ApprovalPage/>
     </>
   )
 }
